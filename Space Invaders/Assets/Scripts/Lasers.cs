@@ -43,7 +43,8 @@ public class Lasers : MonoBehaviour
         }
         else if (other.gameObject.tag == "Player" && enemyRocket != null)
         {
-            DestroyRocket(other.gameObject);
+            other.gameObject.GetComponent<SpriteRenderer>().enabled = false;
+            other.gameObject.GetComponent<PlayerControls>().deadJim = true;
 
             DestroyRocket(gameObject);
         }

@@ -6,7 +6,7 @@ public class EnemyControls : MonoBehaviour
 {
     private Rigidbody rb;
     private float speed = 1f;
-    private float fireTime = 3f;
+    private float fireTime = 2f;
     private float nextFire;
 
     private float leftSideScreen = 0.2f;
