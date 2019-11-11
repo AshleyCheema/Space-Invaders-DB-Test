@@ -5,12 +5,12 @@ using UnityEngine;
 public class EnemyControls : MonoBehaviour
 {
     private Rigidbody rb;
-    private float speed;
-    private float fireTime;
+    private float speed = 1f;
+    private float fireTime = 3f;
     private float nextFire;
 
     private float leftSideScreen = 0.2f;
-    private float rightSideScren = 0.8f;
+    private float rightSideScreen = 0.8f;
 
     private bool touchSide;
     private Vector2 screenBounds;
@@ -30,7 +30,12 @@ public class EnemyControls : MonoBehaviour
     {
         EnemyBounds();
 
-        if(Time.time > nextFire)
+        if(gameObject.tag == "Enemy")
+        {
+            DownMovement();
+        }
+
+        if (Time.time > nextFire)
         {
             Fire();
             nextFire = Time.time + fireTime;
@@ -44,20 +49,26 @@ public class EnemyControls : MonoBehaviour
 
     private void EnemyBounds()
     {
-        screenBounds.x = Mathf.Clamp(screenBounds.x, leftSideScreen, rightSideScren);
-        transform.position = Camera.main.ViewportToWorldPoint(screenBounds);
+        //Constraining the enemies with in the camera border
+        Vector3 pos = Camera.main.WorldToViewportPoint(transform.position);
+        pos.x = Mathf.Clamp(pos.x, leftSideScreen, rightSideScreen);
+        transform.position = Camera.main.ViewportToWorldPoint(pos);
 
-        if(transform.position.y <= -screenBounds.y)
+        if (transform.position.y <= -screenBounds.y)
         {
             Destroy(gameObject);
         }
 
-        if(screenBounds.x >= rightSideScren)
+        //Check whether the enemies have hit the right side of the screen
+        //If they have not then continue to move that direction
+        if (pos.x >= rightSideScreen)
         {
             touchSide = true;
+            //transform.position -= new Vector3(transform.position.x, 1, transform.position.z);
         }
-        else if(screenBounds.x <= leftSideScreen)
+        else if (pos.x <= leftSideScreen)
         {
+            //transform.position -= new Vector3(transform.position.x, 1, transform.position.z);
             touchSide = false;
         }
 
