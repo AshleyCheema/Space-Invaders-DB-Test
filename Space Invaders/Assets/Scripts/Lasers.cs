@@ -39,6 +39,7 @@ public class Lasers : MonoBehaviour
         {
             DestroyRocket(other.gameObject);
             DestroyRocket(gameObject);
+            PlayerControls.playerScore++;
         }
         else if (other.gameObject.tag == "Player" && enemyRocket != null)
         {
